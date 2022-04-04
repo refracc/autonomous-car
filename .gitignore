@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/ada,spark,windows,macos,visualstudio
-# Edit at https://www.toptal.com/developers/gitignore?templates=ada,spark,windows,macos,visualstudio
+# Created by https://www.toptal.com/developers/gitignore/api/ada,spark,macos,windows,visualstudio,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=ada,spark,macos,windows,visualstudio,visualstudiocode
 
 ### Ada ###
 # Object file
@@ -138,6 +138,27 @@ spark-warehouse/
 # For SBT
 .jvmopts
 
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
+# Support for Project snippet scope
 
 ### Windows ###
 # Windows thumbnail cache files
@@ -344,7 +365,6 @@ DocProject/Help/*.hhp
 DocProject/Help/Html2
 DocProject/Help/html
 
-
 # Click-Once directory
 publish/
 
@@ -542,15 +562,9 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # VS Code files for those working on multiple tools
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
 *.code-workspace
 
 # Local History for Visual Studio Code
-.history/
 
 # Windows Installer files from build outputs
 
@@ -560,4 +574,4 @@ FodyWeavers.xsd
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
-# End of https://www.toptal.com/developers/gitignore/api/ada,spark,windows,macos,visualstudio
+# End of https://www.toptal.com/developers/gitignore/api/ada,spark,macos,windows,visualstudio,visualstudiocode
