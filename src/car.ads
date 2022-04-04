@@ -25,9 +25,9 @@ package car with SPARK_Mode is
   function PowerInvariant (gear : in CarGear) return Boolean is
     (gear = CarGear'First);
 
-  --  procedure ChangeGear(This : in out Car) with
-  --    Pre => (This.speed = 0),
-  --    Post => (This.gear >= CarGear'First and This.gear <= CarGear'Last);
+  procedure ChangeGear(This : in out Car) with
+    Pre'Class => (This.car_speed = 0),
+    Post => (This.gear >= CarGear'First and This.gear <= CarGear'Last);
 
   procedure Accelerate (This : in out Car; rd: in Road) with
     Pre'Class => (This.car_speed > Speed'First and This.car_speed <= Speed'Last),
