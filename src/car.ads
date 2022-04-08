@@ -33,7 +33,8 @@ is
 
    procedure RunDiagnostics (This : in out Car) with
       Pre'Class =>
-      (This.battery = BatteryCharge'Last and This.park = True and This.car_speed = Speed'First);
+      (This.battery = BatteryCharge'Last and This.park = True and
+       This.car_speed = Speed'First);
 
    procedure ChangeGear (This : in out Car) with
       Pre'Class => (This.car_speed = 0),
@@ -49,11 +50,14 @@ is
       (This.car_speed > Speed'First and This.battery > BatteryCharge'First),
       Post =>
       (This.battery >= BatteryCharge'First and
-         This.battery <= BatteryCharge'Last);
+       This.battery <= BatteryCharge'Last);
 
-   procedure CheckForObstruction(This: in out Car ; Probability : in Integer ; X : in Integer) with
-     Pre'Class => (This.car_speed > Speed'First and SpeedInvariant(This.car_speed));
+   procedure CheckForObstruction
+     (This : in out Car; Probability : in Integer; X : in Integer) with
+      Pre'Class =>
+      (This.car_speed > Speed'First and SpeedInvariant (This.car_speed));
 
-   procedure DisableDiagnostics(This : in out Car) with
-     Pre'Class => (This.battery = BatteryCharge'Last and PowerInvariant(This.gear));
+   procedure DisableDiagnostics (This : in out Car) with
+      Pre'Class =>
+      (This.battery = BatteryCharge'Last and PowerInvariant (This.gear));
 end car;

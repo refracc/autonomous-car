@@ -1,18 +1,18 @@
-with car; use car;
+with car;         use car;
 with Ada.Numerics.Discrete_Random;
 with Ada.Text_IO; use Ada.Text_IO;
 
 procedure Main is
-   subtype RandomRange is Integer range 0..100;
+   subtype RandomRange is Integer range 0 .. 100;
 
-   package r is new Ada.Numerics.Discrete_Random(RandomRange);
+   package r is new Ada.Numerics.Discrete_Random (RandomRange);
    use r;
    G : Generator;
    X : RandomRange;
-   C : Car.Car;
+   C : car.Car;
 begin
-   Reset(G);
-   X := Random(G);
-   CheckForObstruction(C, 80, X);
+   Reset (G);
+   X := Random (G);
+   CheckForObstruction (C, 80, X);
    null;
 end Main;

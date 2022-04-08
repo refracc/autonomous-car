@@ -11,12 +11,13 @@ is
    begin
       if
         (MinimumChargeInvariant (This.battery) and This.gear = 1 and
-         Integer (This.car_speed) < Integer (rd.lim) and (not Boolean(This.running)))
+         Integer (This.car_speed) < Integer (rd.lim) and
+         (not Boolean (This.running)))
       then
          This.car_speed := This.car_speed + 1;
          Update (This);
       else
-         Put_Line("Unable to move due to diagnostics being enabled.");
+         Put_Line ("Unable to move due to diagnostics being enabled.");
       end if;
    end Accelerate;
 
@@ -41,7 +42,7 @@ is
    procedure ChangeGear (This : in out Car) is
       Gear : Integer := -1;
    begin
-      if (This.car_speed = 0 and (not Boolean(This.running))) then
+      if (This.car_speed = 0 and (not Boolean (This.running))) then
          while Integer (Gear) < Integer (CarGear'First) and
            Integer (Gear) > Integer (CarGear'Last)
          loop
@@ -61,39 +62,44 @@ is
             end if;
          end loop;
       else
-         Put_Line("Unable to run car while diagnostics are running.");
+         Put_Line ("Unable to run car while diagnostics are running.");
       end if;
 
    end ChangeGear;
 
-   procedure RunDiagnostics (This: in out Car) is
+   procedure RunDiagnostics (This : in out Car) is
    begin
       if (This.battery = BatteryCharge'Last) then
          if (not This.running) then
             This.running := True;
-            Put_Line("This vehicle is currently running diagnostics... All functionality has been disabled.");
-            delay(Duration(15));
-            Put_Line("All functionality has been resumed. Car diagnosis complete, and has found significant faults with the system.");
-            Put_Line("Parts valuing £12,435.86 have been ordered from the bank account registered to this car.");
+            Put_Line
+              ("This vehicle is currently running diagnostics... All functionality has been disabled.");
+            delay (Duration (15));
+            Put_Line
+              ("All functionality has been resumed. Car diagnosis complete, and has found significant faults with the system.");
+            Put_Line
+              ("Parts valuing £12,435.86 have been ordered from the bank account registered to this car.");
          end if;
       else
-         Put_Line("The battery must be fully charged to run diagnostics.");
+         Put_Line ("The battery must be fully charged to run diagnostics.");
       end if;
 
    end RunDiagnostics;
 
-   procedure DisableDiagnostics(This : in out Car) is
+   procedure DisableDiagnostics (This : in out Car) is
    begin
       if (This.running) then
          This.running := False;
-         Put_Line("Disabling diagnostics");
+         Put_Line ("Disabling diagnostics");
       end if;
    end DisableDiagnostics;
 
-   procedure CheckForObstruction(This: in out Car ; Probability : in Integer ; X : in Integer) is
+   procedure CheckForObstruction
+     (This : in out Car; Probability : in Integer; X : in Integer)
+   is
    begin
-      if ((Integer(X) > Probability) and (This.gear = 3)) then
-         Put_Line("Obstruction ahead in road... Stopping...");
+      if ((Integer (X) > Probability) and (This.gear = 3)) then
+         Put_Line ("Obstruction ahead in road... Stopping...");
 
          while This.car_speed > 0 loop
             if (This.battery < BatteryCharge'Last) then
@@ -105,7 +111,7 @@ is
                This.car_speed := This.car_speed - 1;
             end if;
          end loop;
-         ChangeGear(This);
+         ChangeGear (This);
       end if;
 
    end CheckForObstruction;
