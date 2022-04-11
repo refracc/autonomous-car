@@ -15,23 +15,28 @@ is
          (not Boolean (This.running)))
       then
          while (Integer (This.car_speed) < Integer (rd.lim)) loop
-            if (MinimumChargeInvariant(This.battery)) then
-                This.battery := This.battery - 1;
-                This.car_speed := This.car_speed + 1;
-                end if;
-
+            if (MinimumChargeInvariant (This.battery)) then
+               This.battery   := This.battery - 1;
+               This.car_speed := This.car_speed + 1;
+            end if;
 
             if (not MinimumChargeInvariant (This.battery)) then
                Put_Line
                  ("The car only has " & This.battery'Image &
                   "% left! Pulling over for charging...");
-
-               while (This.car_speed > Speed'First) loop
-                  This.car_speed := This.car_speed - 1;
-               end loop;
                -- Charge()
             end if;
             delay (Duration (2));
+         end loop;
+
+         while
+           (This.battery > (BatteryCharge'First + (BatteryCharge'Last / 10)))
+         loop
+            This.battery := This.battery - 1;
+            if (not MinimumChargeInvariant (This.battery)) then
+               Put_Line
+                 ("The car only has " & This.battery'Image &
+                  "% left! Pulling over for charging...");
          end loop;
       else
          Put_Line ("Unable to move due to diagnostics being enabled.");
@@ -97,7 +102,8 @@ is
      (This : in out Car; Probability : in Integer; X : in Integer)
    is
    begin
-      if ((Integer (X) > Probability) and (This.gear = 3)) then
+      if ((Integer (X) > Probability) and (This.gear = 3 or This.gear = 1))
+      then
          Put_Line ("Obstruction ahead in road... Stopping...");
 
          while This.car_speed > 0 loop

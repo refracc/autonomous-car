@@ -12,14 +12,12 @@ procedure Main is
    X      : RandomRange;
    C      : car.Car;
    R      : roads.Road;
-   Choice : Integer := -1;
-   Chosen : Integer := 0;
+   Choice : String := "-1";
+   Chosen : String := "0";
 begin
-   Reset (G);
-   X := Random (G);
-   CheckForObstruction (C, 80, X);
 
-   while Integer (Choice) < 1 and Integer (Choice) > 4 loop
+   while (Choice /= "1" or Choice /= "2" or Choice /= "3" or Choice /= "4")
+   loop
       Put_Line ("What would you like to do with your car?");
       Put_Line ("");
       Put_Line ("+-----+-----------------+");
@@ -32,12 +30,15 @@ begin
       Put_Line ("| [4] | Run Diagnostics |");
       Put_Line ("+-----+-----------------+");
 
-      --Get(Choice);
+      Get (Choice);
 
-      if (Choice >= 1 and Choice <= 4) then
+      if (Choice = "1" or Choice = "2" or Choice = "3" or Choice = "4") then
          Chosen := Choice;
-         if (Chosen = 1) then
+         if (Chosen = "1") then
             Accelerate (C, R);
+            Reset (G);
+            X := Random (G);
+            CheckForObstruction (C, 80, X);
          end if;
       end if;
 
