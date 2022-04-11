@@ -10,34 +10,33 @@ is
    procedure Accelerate (This : in out Car; rd : in Road) is
    begin
       if
-        (MinimumChargeInvariant (This.battery) and This.gear = 1 and
-         Integer (This.car_speed) < Integer (rd.lim) and
+        (MinimumChargeInvariant (This.battery) and This.gear = 3 and
+         Integer (This.car_speed) <= Integer (rd.lim) and
          (not Boolean (This.running)))
       then
-         This.car_speed := This.car_speed + 1;
-         Update (This);
+         while (Integer (This.car_speed) < Integer (rd.lim)) loop
+            if (MinimumChargeInvariant(This.battery)) then
+                This.battery := This.battery - 1;
+                This.car_speed := This.car_speed + 1;
+                end if;
+
+
+            if (not MinimumChargeInvariant (This.battery)) then
+               Put_Line
+                 ("The car only has " & This.battery'Image &
+                  "% left! Pulling over for charging...");
+
+               while (This.car_speed > Speed'First) loop
+                  This.car_speed := This.car_speed - 1;
+               end loop;
+               -- Charge()
+            end if;
+            delay (Duration (2));
+         end loop;
       else
          Put_Line ("Unable to move due to diagnostics being enabled.");
       end if;
    end Accelerate;
-
-   procedure Update (This : in out Car) is
-   begin
-      if (This.car_speed > 0) then
-         This.battery := This.battery - 1;
-      end if;
-
-      if (This.car_speed = 0 and This.charge = True) then
-         This.battery := This.battery + 1;
-      end if;
-
-      if (This.battery < (BatteryCharge'First + (BatteryCharge'First / 10)))
-      then
-         Put_Line
-           ("The car only has " & This.battery'Image &
-            "% left! Pulling over for charging...");
-      end if;
-   end Update;
 
    procedure ChangeGear (This : in out Car) is
       Gear : Integer := -1;

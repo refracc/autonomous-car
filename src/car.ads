@@ -26,11 +26,13 @@ is
    function MinimumChargeInvariant
      (battery : in BatteryCharge) return Boolean is
      (battery <= BatteryCharge'Last and
-      battery > (BatteryCharge'First + (BatteryCharge'First / 10)));
+      battery > (BatteryCharge'First + (BatteryCharge'Last / 10)));
 
    function PowerInvariant (gear : in CarGear) return Boolean is
      (gear = CarGear'First);
 
+
+   -- Procedures for Functionality
    procedure RunDiagnostics (This : in out Car) with
       Pre'Class =>
       (This.battery = BatteryCharge'Last and This.park = True and
@@ -42,15 +44,8 @@ is
 
    procedure Accelerate (This : in out Car; rd : in Road) with
       Pre'Class =>
-      (This.car_speed > Speed'First and This.car_speed <= Speed'Last),
+      (MinimumChargeInvariant(This.battery)),
       Post => (This.car_speed <= Speed'Last);
-
-   procedure Update (This : in out Car) with
-      Pre'Class =>
-      (This.car_speed > Speed'First and This.battery > BatteryCharge'First),
-      Post =>
-      (This.battery >= BatteryCharge'First and
-       This.battery <= BatteryCharge'Last);
 
    procedure CheckForObstruction
      (This : in out Car; Probability : in Integer; X : in Integer) with
