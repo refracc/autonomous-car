@@ -37,10 +37,6 @@ is
       (This.battery = BatteryCharge'Last and This.park = True and
        This.car_speed = Speed'First);
 
-   procedure ChangeGear (This : in out Car) with
-      Pre'Class => (This.car_speed = 0),
-      Post      => (This.gear >= CarGear'First and This.gear <= CarGear'Last);
-
    procedure Accelerate (This : in out Car; rd : in Road) with
       Pre'Class => (MinimumChargeInvariant (This.battery)),
       Post      => (This.car_speed <= Speed'Last);
@@ -52,5 +48,9 @@ is
 
    procedure DisableDiagnostics (This : in out Car) with
       Pre'Class =>
-      (This.battery = BatteryCharge'Last and PowerInvariant (This.gear));
+       (This.battery = BatteryCharge'Last and PowerInvariant (This.gear));
+
+   procedure Charge(This: in out Car) with
+     Pre'Class => (This.battery < BatteryCharge'Last and This.gear = CarGear'First),
+       Post => (This.battery = BatteryCharge'Last);
 end car;

@@ -46,33 +46,6 @@ is
       end if;
    end Accelerate;
 
-   procedure ChangeGear (This : in out Car) is
-      Gear : String := "-1";
-   begin
-      if (This.car_speed = 0 and (not Boolean (This.running))) then
-         while Gear /= "0" or Gear /= "1" or Gear /= "2" or Gear /= "3" loop
-            Put_Line ("Which gear would you like the car to go in to?");
-            Put_Line ("[0] - Park");
-            Put_Line ("[1] - Reverse");
-            Put_Line ("[2] - Neutral");
-            Put_Line ("[3] - Drive");
-
-            declare
-               Choice : String := Ada.Text_IO.Get_Line;
-            begin
-               Gear := Choice;
-
-               if (Gear = "0" or Gear = "1" or Gear = "2" or Gear = "3") then
-                  This.gear := CarGear (Integer'Value (Gear));
-               end if;
-            end;
-         end loop;
-      else
-         Put_Line ("Unable to change gear...");
-      end if;
-
-   end ChangeGear;
-
    procedure RunDiagnostics (This : in out Car) is
    begin
       if (This.battery = BatteryCharge'Last) then
@@ -120,9 +93,19 @@ is
                This.car_speed := This.car_speed - 1;
             end if;
          end loop;
-         ChangeGear (This);
       end if;
 
    end CheckForObstruction;
+
+   procedure Charge (This : in out Car) is
+   begin
+      Put_Line ("Charging car (this may take a while)...");
+      while (This.battery < BatteryCharge'Last) loop
+         This.battery := This.battery + 1;
+         Put_Line ("Car battery is now at " & This.battery'Image & "%.");
+         delay (Duration (1));
+      end loop;
+      Put_Line ("Car has been fully charged.");
+   end Charge;
 
 end car;
