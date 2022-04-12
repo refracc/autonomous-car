@@ -7,7 +7,6 @@ is
    type BatteryCharge is range 0 .. 100;
    type Speed is new Integer range 0 .. 240;
    type CarGear is new Integer range 0 .. 4;
-   type Charging is new Boolean;
    type Diagnostic is new Boolean;
 
    type Car is tagged record
@@ -15,7 +14,6 @@ is
       park      : Parked        := True;
       car_speed : Speed         := 0;
       gear      : CarGear       := 0;
-      charge    : Charging      := False;
       running   : Diagnostic    := False;
    end record;
 
@@ -37,8 +35,10 @@ is
       (This.battery = BatteryCharge'Last and This.park = True and
        This.car_speed = Speed'First);
 
-   procedure Accelerate (This : in out Car; rd : in Road) with
-      Pre'Class => (MinimumChargeInvariant (This.battery)),
+   procedure Accelerate
+     (This : in out Car; rd : in Road; Probability : in Integer;
+      X    : in     Integer) with
+      Pre'Class => (MinimumChargeInvariant (This.battery) and X > 0),
       Post      => (This.car_speed <= Speed'Last);
 
    procedure CheckForObstruction

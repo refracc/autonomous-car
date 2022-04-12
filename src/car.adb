@@ -7,7 +7,10 @@ package body car with
    SPARK_Mode
 is
 
-   procedure Accelerate (This : in out Car; rd : in Road) is
+   procedure Accelerate
+     (This : in out Car; rd : in Road; Probability : in Integer;
+      X    : in     Integer)
+   is
    begin
       if
         (MinimumChargeInvariant (This.battery) and This.gear = 3 and
@@ -22,8 +25,37 @@ is
                Put_Line
                  ("Car is moving! Speed: " & This.car_speed'Image &
                   " (Battery: " & This.battery'Image & ")");
+               CheckForObstruction (This, Probability, X);
             end if;
+         end loop;
 
+         if (not MinimumChargeInvariant (This.battery)) then
+            Put_Line
+              ("The car only has " & This.battery'Image &
+               "% left! Pulling over for charging...");
+            while This.car_speed > 0 and MinimumChargeInvariant (This.battery)
+            loop
+               if (This.battery < BatteryCharge'Last) then
+                  if (This.battery mod 4 = 0) then
+                     This.battery := This.battery + 1;
+                  end if;
+                  This.car_speed := This.car_speed - 1;
+               else
+                  This.car_speed := This.car_speed - 1;
+               end if;
+            end loop;
+         end if;
+
+         while
+           (This.battery > (BatteryCharge'First + (BatteryCharge'Last / 10)))
+         loop
+            This.battery := This.battery - 1;
+            Put_Line
+              ("Car is moving! Speed: " & This.car_speed'Image &
+                 " (Battery: " & This.battery'Image & ")");
+            if (This.car_speed > Speed'First) then
+               CheckForObstruction (This, Probability, X);
+            end if;
             if (not MinimumChargeInvariant (This.battery)) then
                Put_Line
                  ("The car only has " & This.battery'Image &
@@ -39,31 +71,6 @@ is
                   end if;
                end loop;
             end if;
-
-            while
-              (This.battery >
-               (BatteryCharge'First + (BatteryCharge'Last / 10)))
-            loop
-               This.battery := This.battery - 1;
-               Put_Line
-                 ("Car is moving! Speed: " & This.car_speed'Image &
-                  " (Battery: " & This.battery'Image & ")");
-               if (not MinimumChargeInvariant (This.battery)) then
-                  Put_Line
-                    ("The car only has " & This.battery'Image &
-                     "% left! Pulling over for charging...");
-                  while This.car_speed > 0 loop
-                     if (This.battery < BatteryCharge'Last) then
-                        if (This.battery mod 4 = 0) then
-                           This.battery := This.battery + 1;
-                        end if;
-                        This.car_speed := This.car_speed - 1;
-                     else
-                        This.car_speed := This.car_speed - 1;
-                     end if;
-                  end loop;
-               end if;
-            end loop;
 
             delay (Duration (2));
          end loop;

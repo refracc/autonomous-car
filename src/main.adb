@@ -43,15 +43,15 @@ begin
          if (Choice = "1") then
             R.rdtype := 1;
             R.lim    := 20;
-            Accelerate (C, R);
 
             Reset (G);
             X := Random (G);
-            CheckForObstruction (C, 80, X);
+
+            Accelerate (C, R, 80, X);
          elsif (Choice = "2") then
             C.gear := 1;
             Put_Line ("Car reversing... *beep* *beep*");
-            Put_Line("");
+            Put_Line ("");
 
             Reset (G);
             X := Random (G);
@@ -76,16 +76,19 @@ begin
                ChosenGear : String := Ada.Text_IO.Get_Line;
             begin
 
-               if (ChosenGear = "0" or ChosenGear = "1" or ChosenGear = "2" or ChosenGear = "3") then
-                  C.gear := CarGear(Integer'Value(ChosenGear));
+               if
+                 (ChosenGear = "0" or ChosenGear = "1" or ChosenGear = "2" or
+                  ChosenGear = "3")
+               then
+                  C.gear := CarGear (Integer'Value (ChosenGear));
                else
-                  Put_Line("Invalid gear selected.");
-                  Put_Line("");
+                  Put_Line ("Invalid gear selected.");
+                  Put_Line ("");
                end if;
             end;
          elsif (Choice = "5") then
-            RunDiagnostics(C);
-            DisableDiagnostics(C);
+            RunDiagnostics (C);
+            DisableDiagnostics (C);
          end if;
 
          Choice := "A";
