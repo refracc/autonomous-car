@@ -48,9 +48,10 @@ is
 
    procedure DisableDiagnostics (This : in out Car) with
       Pre'Class =>
-       (This.battery = BatteryCharge'Last and PowerInvariant (This.gear));
+      (This.battery = BatteryCharge'Last and PowerInvariant (This.gear));
 
-   procedure Charge(This: in out Car) with
-     Pre'Class => (This.battery < BatteryCharge'Last and This.gear = CarGear'First),
-       Post => (This.battery = BatteryCharge'Last);
+   procedure Charge (This : in out Car) with
+      Pre'Class =>
+      (This.battery < BatteryCharge'Last and This.gear = CarGear'First),
+      Post => (This.battery = BatteryCharge'Last);
 end car;

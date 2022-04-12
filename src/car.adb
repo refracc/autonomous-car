@@ -14,17 +14,30 @@ is
          Integer (This.car_speed) <= Integer (rd.lim) and
          (not Boolean (This.running)))
       then
+         Put_Line ("Moving car...");
          while (Integer (This.car_speed) < Integer (rd.lim)) loop
             if (MinimumChargeInvariant (This.battery)) then
                This.battery   := This.battery - 1;
                This.car_speed := This.car_speed + 1;
+               Put_Line
+                 ("Car is moving! Speed: " & This.car_speed'Image &
+                  " (Battery: " & This.battery'Image & ")");
             end if;
 
             if (not MinimumChargeInvariant (This.battery)) then
                Put_Line
                  ("The car only has " & This.battery'Image &
                   "% left! Pulling over for charging...");
-               -- Charge()
+               while This.car_speed > 0 loop
+                  if (This.battery < BatteryCharge'Last) then
+                     if (This.battery mod 4 = 0) then
+                        This.battery := This.battery + 1;
+                     end if;
+                     This.car_speed := This.car_speed - 1;
+                  else
+                     This.car_speed := This.car_speed - 1;
+                  end if;
+               end loop;
             end if;
 
             while
@@ -32,10 +45,23 @@ is
                (BatteryCharge'First + (BatteryCharge'Last / 10)))
             loop
                This.battery := This.battery - 1;
+               Put_Line
+                 ("Car is moving! Speed: " & This.car_speed'Image &
+                  " (Battery: " & This.battery'Image & ")");
                if (not MinimumChargeInvariant (This.battery)) then
                   Put_Line
                     ("The car only has " & This.battery'Image &
                      "% left! Pulling over for charging...");
+                  while This.car_speed > 0 loop
+                     if (This.battery < BatteryCharge'Last) then
+                        if (This.battery mod 4 = 0) then
+                           This.battery := This.battery + 1;
+                        end if;
+                        This.car_speed := This.car_speed - 1;
+                     else
+                        This.car_speed := This.car_speed - 1;
+                     end if;
+                  end loop;
                end if;
             end loop;
 
