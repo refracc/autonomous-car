@@ -38,8 +38,13 @@ is
    procedure Accelerate
      (This : in out Car; rd : in Road; Probability : in Integer;
       X    : in     Integer) with
-      Pre'Class => (MinimumChargeInvariant (This.battery) and X > 0 and SpeedInvariant(This.car_speed) and Integer(This.car_speed) <= Integer(rd.lim) and This.gear = CarGear(3)),
-      Post      => (This.car_speed <= Speed'Last and This.battery <= BatteryCharge'Last);
+      Pre'Class =>
+      (MinimumChargeInvariant (This.battery) and X > 0 and
+       SpeedInvariant (This.car_speed) and
+       Integer (This.car_speed) <= Integer (rd.lim) and
+       This.gear = CarGear (3)),
+      Post =>
+      (This.car_speed <= Speed'Last and This.battery <= BatteryCharge'Last);
 
    procedure CheckForObstruction
      (This : in out Car; Probability : in Integer; X : in Integer) with

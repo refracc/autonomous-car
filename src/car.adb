@@ -52,7 +52,7 @@ is
             This.battery := This.battery - 1;
             Put_Line
               ("Car is moving! Speed: " & This.car_speed'Image &
-                 " (Battery: " & This.battery'Image & ")");
+               " (Battery: " & This.battery'Image & ")");
             if (This.car_speed > Speed'First) then
                CheckForObstruction (This, Probability, X);
             end if;
