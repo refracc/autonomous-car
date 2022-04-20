@@ -142,14 +142,13 @@ is
       Put_Line ("Car has been fully charged.");
    end Charge;
 
-
-   procedure CheckLightLevel(This: in out Car ; rd : in Road) is
+   procedure CheckLightLevel (This : in out Car; rd : in Road) is
    begin
-      if (Integer(rd.light) <= Integer(LightLevel'Last)/2) then
+      if (Integer (rd.light) <= Integer (LightLevel'Last) / 2) then
          This.lights := True;
-         Put_Line("The road is looking dim! Turning on headlights...");
-         delay(Duration(3));
-         Put_Line("[suddenly, light]");
+         Put_Line ("The road is looking dim! Turning on headlights...");
+         delay (Duration (3));
+         Put_Line ("[suddenly, light]");
       end if;
 
    end CheckLightLevel;

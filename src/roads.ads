@@ -6,8 +6,8 @@ is
    type LightLevel is new Integer range 0 .. 16;
 
    type Road is tagged record
-      lim    : Limit    := 20;
-      light  : LightLevel := 10;
+      lim   : Limit      := 20;
+      light : LightLevel := 10;
    end record;
 
 end roads;

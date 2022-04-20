@@ -41,12 +41,12 @@ begin
       begin
 
          if (Choice = "1") then
-            R.lim    := 50;
+            R.lim   := 50;
             R.light := 6;
 
             Reset (G);
             X := Random (G);
-            CheckLightLevel(C, R);
+            CheckLightLevel (C, R);
             Accelerate (C, R, 80, X);
          elsif (Choice = "2") then
             C.gear := 1;
