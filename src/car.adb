@@ -26,6 +26,7 @@ is
                  ("Car is moving! Speed: " & This.car_speed'Image &
                   " (Battery: " & This.battery'Image & ")");
                CheckForObstruction (This, Probability, X);
+               delay (Duration (0.5));
             end if;
          end loop;
 
@@ -140,5 +141,17 @@ is
       end loop;
       Put_Line ("Car has been fully charged.");
    end Charge;
+
+
+   procedure CheckLightLevel(This: in out Car ; rd : in Road) is
+   begin
+      if (Integer(rd.light) <= Integer(LightLevel'Last)/2) then
+         This.lights := True;
+         Put_Line("The road is looking dim! Turning on headlights...");
+         delay(Duration(3));
+         Put_Line("[suddenly, light]");
+      end if;
+
+   end CheckLightLevel;
 
 end car;

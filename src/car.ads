@@ -8,6 +8,7 @@ is
    type Speed is new Integer range 0 .. 240;
    type CarGear is new Integer range 0 .. 4;
    type Diagnostic is new Boolean;
+   type Headlights is new Boolean;
 
    type Car is tagged record
       battery   : BatteryCharge := 85;
@@ -15,6 +16,7 @@ is
       car_speed : Speed         := 0;
       gear      : CarGear       := 0;
       running   : Diagnostic    := False;
+      lights : Headlights := False;
    end record;
 
    -- Invariants
@@ -33,7 +35,9 @@ is
    procedure RunDiagnostics (This : in out Car) with
       Pre'Class =>
       (This.battery = BatteryCharge'Last and This.park = True and
-       This.car_speed = Speed'First);
+         This.car_speed = Speed'First),
+   Post => (This.battery = BatteryCharge'Last and This.park = True and
+         This.car_speed = Speed'First);
 
    procedure Accelerate
      (This : in out Car; rd : in Road; Probability : in Integer;
@@ -49,7 +53,8 @@ is
    procedure CheckForObstruction
      (This : in out Car; Probability : in Integer; X : in Integer) with
       Pre'Class =>
-      (This.car_speed > Speed'First and SpeedInvariant (This.car_speed));
+       (This.car_speed > Speed'First and SpeedInvariant (This.car_speed)),
+   Post => ((This.car_speed >= Speed'First) and This.battery <= BatteryCharge'Last and This.battery >= BatteryCharge'First);
 
    procedure DisableDiagnostics (This : in out Car) with
       Pre'Class =>
@@ -58,5 +63,11 @@ is
    procedure Charge (This : in out Car) with
       Pre'Class =>
       (This.battery < BatteryCharge'Last and This.gear = CarGear'First),
-      Post => (This.battery = BatteryCharge'Last);
+       Post => (This.battery = BatteryCharge'Last);
+
+   procedure CheckLightLevel(This: in out Car ; rd : in Road) with
+     Pre'Class => (rd.light <= (LightLevel'Last)/2 and MinimumChargeInvariant(This.battery)),
+     Post => ((This.lights = True) and MinimumChargeInvariant(This.battery));
+
+
 end car;

@@ -3,14 +3,11 @@ package roads with
 is
 
    type Limit is new Integer range 0 .. 240;
-   type RoadType is range 0 .. 2;
+   type LightLevel is new Integer range 0 .. 16;
 
    type Road is tagged record
       lim    : Limit    := 20;
-      rdtype : RoadType := 1;
+      light  : LightLevel := 10;
    end record;
-
-   function RoadInvariant (This : in Road) return Boolean is
-     (This.rdtype >= RoadType'First and This.rdtype <= RoadType'Last);
 
 end roads;
