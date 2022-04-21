@@ -35,10 +35,10 @@ is
    procedure RunDiagnostics (This : in out Car) with
       Pre'Class =>
       (This.battery = BatteryCharge'Last and This.park = True and
-       This.car_speed = Speed'First),
+       This.car_speed = Speed'First and PowerInvariant (This.gear)),
       Post =>
       (This.battery = BatteryCharge'Last and This.park = True and
-       This.car_speed = Speed'First);
+       This.car_speed = Speed'First and PowerInvariant (This.gear));
 
    procedure Accelerate
      (This : in out Car; rd : in Road; Probability : in Integer;
@@ -62,7 +62,11 @@ is
 
    procedure DisableDiagnostics (This : in out Car) with
       Pre'Class =>
-      (This.battery = BatteryCharge'Last and PowerInvariant (This.gear));
+      (This.battery = BatteryCharge'Last and PowerInvariant (This.gear) and
+       This.car_speed = Speed'First),
+      Post =>
+      (This.battery = BatteryCharge'Last and This.car_speed = Speed'First and
+       PowerInvariant (This.gear));
 
    procedure Charge (This : in out Car) with
       Pre'Class =>
