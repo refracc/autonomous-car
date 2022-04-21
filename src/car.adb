@@ -110,6 +110,8 @@ is
    end DisableDiagnostics;
 
    procedure CheckForObstruction
+     (This : in out Car; Probability : in Integer; X : in Integer;
+      rd   : in     Road)
      (This : in out Car; Probability : in Integer; X : in Integer; rd : in Road)
    is
    begin
