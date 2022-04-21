@@ -34,11 +34,11 @@ is
    -- Procedures for Functionality
    procedure RunDiagnostics (This : in out Car) with
       Pre'Class =>
-      (This.battery = BatteryCharge'Last and This.park = True and
+      (This.battery = BatteryCharge'Last and
        This.car_speed = Speed'First and PowerInvariant (This.gear) and
        not (Boolean (This.running))),
       Post =>
-      (This.battery = BatteryCharge'Last and This.park = True and
+      (This.battery = BatteryCharge'Last and Boolean(This.running) and
        This.car_speed = Speed'First and PowerInvariant (This.gear));
 
    procedure Accelerate
@@ -67,7 +67,7 @@ is
        This.car_speed = Speed'First and Boolean (This.running)),
       Post =>
       (This.battery = BatteryCharge'Last and This.car_speed = Speed'First and
-       PowerInvariant (This.gear));
+       PowerInvariant (This.gear) and not (Boolean(This.running)));
 
    procedure Charge (This : in out Car) with
       Pre'Class =>
