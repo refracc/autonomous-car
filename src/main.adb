@@ -55,7 +55,7 @@ begin
 
             Reset (G);
             X := Random (G);
-            CheckForObstruction (C, 80, X);
+            CheckForObstruction (C, 80, X, R);
          elsif (Choice = "3") then
             Charge (C);
          elsif (Choice = "4") then

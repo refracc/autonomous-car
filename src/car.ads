@@ -53,9 +53,9 @@ is
       (This.car_speed <= Speed'Last and This.battery <= BatteryCharge'Last);
 
    procedure CheckForObstruction
-     (This : in out Car; Probability : in Integer; X : in Integer) with
+     (This : in out Car; Probability : in Integer; X : in Integer; rd : in Road) with
       Pre'Class =>
-      (This.car_speed > Speed'First and SpeedInvariant (This.car_speed)),
+      (This.car_speed > Speed'First and SpeedInvariant (This.car_speed) and RoadSpeedInvariant(rd.lim)),
       Post =>
       ((This.car_speed >= Speed'First) and
        This.battery <= BatteryCharge'Last and
@@ -75,8 +75,8 @@ is
       Post => (This.battery = BatteryCharge'Last);
 
    procedure CheckLightLevel (This : in out Car; rd : in Road) with
-      Pre'Class =>
-      (rd.light <= (LightLevel'Last) / 2 and
+     Pre'Class =>
+       (Integer(rd.light) <= Integer(LightLevel'Last)/2 and
        MinimumChargeInvariant (This.battery)),
       Post => ((This.lights = True) and MinimumChargeInvariant (This.battery));
 

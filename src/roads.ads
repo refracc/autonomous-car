@@ -10,4 +10,7 @@ is
       light : LightLevel := 10;
    end record;
 
+   function RoadSpeedInvariant (lim : in Limit) return Boolean is
+      (lim > 0);
+
 end roads;

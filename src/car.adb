@@ -15,7 +15,7 @@ is
       if
         (MinimumChargeInvariant (This.battery) and This.gear = 3 and
          Integer (This.car_speed) <= Integer (rd.lim) and
-         (not Boolean (This.running)))
+         (not Boolean (This.running)) and rd.lim > 0)
       then
          Put_Line ("Moving car...");
          while (Integer (This.car_speed) < Integer (rd.lim)) loop
@@ -25,7 +25,7 @@ is
                Put_Line
                  ("Car is moving! Speed: " & This.car_speed'Image &
                   " (Battery: " & This.battery'Image & ")");
-               CheckForObstruction (This, Probability, X);
+               CheckForObstruction (This, Probability, X, rd);
                delay (Duration (0.5));
             end if;
          end loop;
@@ -55,7 +55,7 @@ is
               ("Car is moving! Speed: " & This.car_speed'Image &
                " (Battery: " & This.battery'Image & ")");
             if (This.car_speed > Speed'First) then
-               CheckForObstruction (This, Probability, X);
+               CheckForObstruction (This, Probability, X, rd);
             end if;
             if (not MinimumChargeInvariant (This.battery)) then
                Put_Line
@@ -110,7 +110,7 @@ is
    end DisableDiagnostics;
 
    procedure CheckForObstruction
-     (This : in out Car; Probability : in Integer; X : in Integer)
+     (This : in out Car; Probability : in Integer; X : in Integer; rd : in Road)
    is
    begin
       if ((Integer (X) > Probability) and (This.gear = 3 or This.gear = 1))
@@ -145,10 +145,10 @@ is
    procedure CheckLightLevel (This : in out Car; rd : in Road) is
    begin
       if (Integer (rd.light) <= Integer (LightLevel'Last) / 2) then
-         This.lights := True;
          Put_Line ("The road is looking dim! Turning on headlights...");
          delay (Duration (3));
          Put_Line ("[suddenly, light]");
+         This.lights := True;
       end if;
 
    end CheckLightLevel;
