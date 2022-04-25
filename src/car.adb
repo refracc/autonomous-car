@@ -19,14 +19,17 @@ is
       then
          Put_Line ("Moving car...");
          while (Integer (This.car_speed) < Integer (rd.lim)) loop
-            if (MinimumChargeInvariant (This.battery)) then
+            if
+              (MinimumChargeInvariant (This.battery) and
+               not (Boolean (This.obstruction)))
+            then
                This.battery   := This.battery - 1;
                This.car_speed := This.car_speed + 1;
                Put_Line
                  ("Car is moving! Speed: " & This.car_speed'Image &
                   " (Battery: " & This.battery'Image & ")");
                CheckForObstruction (This, Probability, X, rd);
-               delay (Duration (0.5));
+               delay (Duration (0.2));
             end if;
          end loop;
 
@@ -44,6 +47,7 @@ is
                else
                   This.car_speed := This.car_speed - 1;
                end if;
+               delay (Duration (0.2));
             end loop;
          end if;
 
@@ -52,9 +56,12 @@ is
          loop
             This.battery := This.battery - 1;
             Put_Line
-              ("Car is moving! Speed: " & This.car_speed'Image &
-               " (Battery: " & This.battery'Image & ")");
-            if (This.car_speed > Speed'First) then
+              ("Car is moving! Speed:" & This.car_speed'Image & " (Battery:" &
+               This.battery'Image & ")");
+            if
+              (This.car_speed > Speed'First and
+               not (Boolean (This.obstruction)))
+            then
                CheckForObstruction (This, Probability, X, rd);
             end if;
             if (not MinimumChargeInvariant (This.battery)) then
@@ -73,7 +80,7 @@ is
                end loop;
             end if;
 
-            delay (Duration (2));
+            delay (Duration (0.2));
          end loop;
       else
          Put_Line ("Unable to move...");
@@ -112,7 +119,6 @@ is
    procedure CheckForObstruction
      (This : in out Car; Probability : in Integer; X : in Integer;
       rd   : in     Road)
-     (This : in out Car; Probability : in Integer; X : in Integer; rd : in Road)
    is
    begin
       if ((Integer (X) > Probability) and (This.gear = 3 or This.gear = 1))

@@ -16,6 +16,11 @@ procedure Main is
    Choice : String := "A";
    Gear   : String := "-1";
 begin
+   Put_Line ("Attempting to turn on vehicle....");
+   if (C.gear = CarGear (0) and Boolean (C.park)) then
+      delay (Duration (5));
+      Put_Line ("[engine starts]");
+   end if;
    while
      (not
       (Choice = "1" or Choice = "2" or Choice = "3" or Choice = "4" or
@@ -41,13 +46,13 @@ begin
       begin
 
          if (Choice = "1") then
-            R.lim   := 50;
+            R.lim   := 40;
             R.light := 6;
 
             Reset (G);
             X := Random (G);
             CheckLightLevel (C, R);
-            Accelerate (C, R, 80, X);
+            Accelerate (C, R, 65, X);
          elsif (Choice = "2") then
             C.gear := 1;
             Put_Line ("Car reversing... *beep* *beep*");

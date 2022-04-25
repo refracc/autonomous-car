@@ -9,14 +9,16 @@ is
    type CarGear is new Integer range 0 .. 4;
    type Diagnostic is new Boolean;
    type Headlights is new Boolean;
+   type Obstructed is new Boolean;
 
    type Car is tagged record
-      battery   : BatteryCharge := 85;
-      park      : Parked        := True;
-      car_speed : Speed         := 0;
-      gear      : CarGear       := 0;
-      running   : Diagnostic    := False;
-      lights    : Headlights    := False;
+      battery     : BatteryCharge := 85;
+      park        : Parked        := True;
+      car_speed   : Speed         := 0;
+      gear        : CarGear       := 0;
+      running     : Diagnostic    := False;
+      lights      : Headlights    := False;
+      obstruction : Obstructed    := False;
    end record;
 
    -- Invariants
